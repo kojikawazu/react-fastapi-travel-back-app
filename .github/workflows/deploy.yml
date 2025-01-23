@@ -26,13 +26,10 @@ jobs:
 
     - name: Authenticate Docker with GCR
       run: |
-        gcloud auth configure-docker
-        gcloud auth configure-docker gcr.io
         gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
     - name: Build and push Docker image
-      run: |
-        echo "Docker Image Path: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.FASTAPI_REPO }}/${{ secrets.FASTAPI_APP }}"        
+      run: |     
         docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.FASTAPI_REPO }}/${{ secrets.FASTAPI_APP }} .
         docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.FASTAPI_REPO }}/${{ secrets.FASTAPI_APP }}
 
