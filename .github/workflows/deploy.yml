@@ -31,7 +31,7 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
-        gcloud run deploy ${FASTAPI_APP} \
+        gcloud run deploy ${{ secrets.FASTAPI_APP }} \
           --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.FASTAPI_REPO }}/${{ secrets.FASTAPI_APP }} \
           --region ${{ secrets.GCP_REGION }} \
           --platform managed \
