@@ -28,8 +28,10 @@ jobs:
       run: |
         gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
-    - name: Verify Docker Configuration
+    - name: Authenticate Docker with Artifact Registry
       run: |
+        gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+        echo "Docker authentication has been configured."
         cat ~/.docker/config.json
 
     - name: Build and push Docker image
