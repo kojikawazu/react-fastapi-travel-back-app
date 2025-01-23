@@ -28,11 +28,14 @@ jobs:
       run: |
         gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
-    - name: Authenticate Docker with Artifact Registry
+    - name: Verify IAM Policy
       run: |
-        gcloud projects get-iam-policy ${{ secrets.GCP_PROJECT_ID }}
-        gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
-        cat ~/.docker/config.json
+        echo "Checking IAM Policy for the service account..."
+        gcloud projects get-iam-policy ${{ secrets.GCP_PROJECT_ID }} \
+          --flatten="bindings[].members" \
+          --format="table(bindings.role)" \
+          --filter="bindings.members:serviceAccount:react-fastapi-back-app-key@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
+
 
     - name: Build and push Docker image
       run: |     
