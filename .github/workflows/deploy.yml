@@ -18,6 +18,15 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
+    - name: Enable Cloud Resource Manager API
+      run: |
+        echo "Enabling Cloud Resource Manager API..."
+        gcloud services enable cloudresourcemanager.googleapis.com
+
+    - name: Authenticate Docker with GCR
+      run: |
+        gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+
     - name: Verify active account
       run: |
         echo "Checking active account..."
@@ -33,10 +42,6 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-
-    - name: Authenticate Docker with GCR
-      run: |
-        gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
     - name: Verify IAM Policy
       run: |
