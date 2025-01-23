@@ -1,0 +1,7 @@
+fastapi==0.115.6
+uvicorn[standard]
+supabase
+httpx>=0.26,<0.29
+websockets
+requests==2.31.0
+pydantic-settings>=2.0.0,<3.0.0
