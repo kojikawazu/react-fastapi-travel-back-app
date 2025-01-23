@@ -18,6 +18,11 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
+    - name: Enable Service Usage API
+      run: |
+        echo "Enabling Service Usage API..."
+        gcloud services enable serviceusage.googleapis.com
+
     - name: Enable Cloud Resource Manager API
       run: |
         echo "Enabling Cloud Resource Manager API..."
