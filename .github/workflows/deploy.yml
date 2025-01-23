@@ -13,6 +13,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+    - name: Verify active account
+      run: |
+        echo "Checking active account..."
+        gcloud auth list
+
     - name: Create .env file
       run: |
         echo SUPABASE_URL=${{ secrets.SUPABASE_URL }} > ./app/.env
@@ -35,7 +45,6 @@ jobs:
           --flatten="bindings[].members" \
           --format="table(bindings.role)" \
           --filter="bindings.members:serviceAccount:react-fastapi-back-app-key@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
-
 
     - name: Build and push Docker image
       run: |     
